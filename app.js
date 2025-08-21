@@ -10,7 +10,7 @@ require('dotenv').config();
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { PrismaClient } = require('@prisma/client');
 const { body, validationResult } = require('express-validator');
-const { equal } = require('node:assert');
+const { uploadRouter } = require('./routers/uploadRouter.js');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -188,5 +188,7 @@ app.post(
 		failureFlash: true,
 	})
 );
+
+app.use('/upload', uploadRouter);
 
 app.listen(3000, () => console.log('app listening on port 3000!'));

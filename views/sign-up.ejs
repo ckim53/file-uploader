@@ -6,9 +6,9 @@
 	</head>
 	<body>
 		<h1>Sign Up</h1>
-		<% if (errors) { %> <% Object.keys(errors).forEach(key => { %>
-		<div class="error"><%= errors[key].msg %></div>
-		<% }) %> <% } %>
+		<% if (errorMessages && errorMessages.length) { %>
+		<div class="error"><%= errorMessages[0] %></div>
+		<% } %>
 		<form action="/sign-up" method="POST">
 			<label for="username">Username</label>
 			<input
