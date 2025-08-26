@@ -1,1 +1,9 @@
-<button onClick="window.location.href='/dashboard'">Back to Dashboard</button>
+<% if (typeof parentId !== 'undefined' && parentId) { %>
+<a href="/dashboard/folders/<%= parentId %>">
+	<button>Back</button>
+</a>
+<% } else { %>
+<a href="/dashboard">
+	<button>Back to Dashboard</button>
+</a>
+<% } %>

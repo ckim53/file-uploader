@@ -23,6 +23,41 @@ const createFolder = async (req, res) => {
 		: res.redirect('/dashboard');
 };
 
+const deleteFolder = async (req, res) => {
+	const parentId = req.params.id ? Number(req.params.id) : null;
+	const folder = await prisma.node.findFirst({
+		where: {
+			id: parentId,
+			type: 'FOLDER',
+		},
+	});
+	await prisma.node.delete({
+		where: {
+			id: parentId,
+			type: 'FOLDER',
+		},
+	});
+	folder.parentId
+		? res.redirect(`/dashboard/folders/${folder.parentId}`)
+		: res.redirect('/dashboard');
+};
+
+const editFolder = async (req, res, next) => {
+	try {
+		const folderId = Number(req.params.id);
+		const newName = req.body.name;
+
+		await prisma.node.update({
+			where: { id: folderId },
+			data: { name: newName },
+		});
+
+		res.redirect(`/dashboard/folders/${folderId}`);
+	} catch (err) {
+		next(err);
+	}
+};
+
 const showContents = async (req, res) => {
 	const folderId = Number(req.params.id);
 	try {
@@ -49,6 +84,7 @@ const showContents = async (req, res) => {
 			folder,
 			fileChildren,
 			folderChildren,
+			parentId: folder.parentId
 		});
 	} catch (err) {
 		next(err);
@@ -56,7 +92,9 @@ const showContents = async (req, res) => {
 };
 
 module.exports = {
+	createFolder,
+	deleteFolder,
+	editFolder,
 	showContents,
 	showFolderForm,
-	createFolder,
 };

@@ -24,7 +24,7 @@ model Node {
   name      String
 
   parentId    Int?
-  parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id], onDelete: Cascade)
   children  Node[]    @relation("NodeChildren")  
 
   contentType  String?

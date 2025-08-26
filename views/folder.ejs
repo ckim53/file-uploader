@@ -1,4 +1,4 @@
-<h1><%= folder.name %></h1>
+<h1 id="folder-name"><%= folder.name %></h1>
 <button
 	onClick="window.location.href='/dashboard/folders/<%=folder.id%>/upload'"
 >
@@ -7,8 +7,27 @@
 <button
 	onClick="window.location.href='/dashboard/folders/<%=folder.id%>/new-folder'"
 >
-	New Folder</button
-><br /><br />
+	New Folder
+</button>
+<button id="edit-btn">Edit Name</button>
+<form
+	id="edit-form"
+	action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
+	method="POST"
+	style="display: none"
+>
+	<h1><input type="text" name="name" value="<%= folder.name %>" required /></h1>
+	<button type="submit">Save</button>
+	<button type="button" id="cancel-btn">Cancel</button>
+</form>
+<form
+	action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
+	method="POST"
+	onsubmit="return confirm('Delete this folder and all its contents?');"
+>
+	<br /><button type="submit">Delete Folder</button>
+</form>
+<br />
 <% folderChildren.forEach( folderChild => {%>
 <a href="/dashboard/folders/<%= folderChild.id %>" class="folder-child">
 	<h3><%= folderChild.name%></h3>
@@ -19,4 +38,25 @@
 ><br />
 <% }) %>
 <br />
+<br /><br />
+
+<script>
+	const editBtn = document.getElementById('edit-btn');
+	const editForm = document.getElementById('edit-form');
+	const folderName = document.getElementById('folder-name');
+	const cancelBtn = document.getElementById('cancel-btn');
+
+	editBtn.addEventListener('click', () => {
+		folderName.style.display = 'none';
+		editBtn.style.display = 'none';
+		editForm.style.display = 'block';
+	});
+
+	cancelBtn.addEventListener('click', () => {
+		folderName.style.display = 'block';
+		editBtn.style.display = 'inline-block';
+		editForm.style.display = 'none';
+	});
+</script>
+
 <%- include('./partials/home.ejs') %>

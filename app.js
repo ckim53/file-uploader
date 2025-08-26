@@ -5,6 +5,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 require('dotenv').config();
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
@@ -40,6 +41,7 @@ app.use(
 	})
 );
 
+app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {
