@@ -26,7 +26,9 @@ const createFile = async (req, res) => {
 		},
 	});
 	req.flash('success', 'File Uploaded!');
-	return res.render('upload', { uploadAction });
+	parentId
+		? res.redirect(`/dashboard/folders/${folderId}`)
+		: res.redirect('/dashboard');
 };
 
 const showFileDetails = async (req, res) => {

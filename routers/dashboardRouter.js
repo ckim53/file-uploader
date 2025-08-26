@@ -2,6 +2,7 @@ const { Router } = require('express');
 const dashboardRouter = Router();
 const { showDashboard } = require('../controllers/dashboardController');
 const fileController = require('../controllers/fileController');
+const folderController = require('../controllers/folderController');
 const upload = require('../storage');
 const { ensureAuth } = require('./fileRouter');
 
@@ -13,4 +14,6 @@ dashboardRouter.post(
 	upload.single('file'),
 	fileController.createFile
 );
+dashboardRouter.get('/new-folder', folderController.showFolderForm);
+dashboardRouter.post('/new-folder', folderController.createFolder);
 module.exports = dashboardRouter;

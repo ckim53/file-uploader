@@ -19,5 +19,6 @@ folderRouter.post(
 	fileController.createFile
 );
 folderRouter.get('/:id/details', fileController.showFileDetails);
-
+folderRouter.get('/:id/new-folder', folderController.showFolderForm);
+folderRouter.post('/:id/new-folder', folderController.createFolder);
 module.exports = folderRouter;
