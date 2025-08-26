@@ -1,0 +1,16 @@
+<h1><%= folder.name %></h1>
+<button
+	onClick="window.location.href='/dashboard/folders/<%=folder.id%>/upload'"
+>
+	Upload File
+</button>
+<br />
+<% folderChildren.forEach( f => {%>
+<a href="/dashboard/folders/<%= folderChild.id %>" class="folder-child">
+	<%= folderChild.name%> </a
+><br />
+<% }) %> <% fileChildren.forEach( fileChild => {%>
+<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
+	<%= fileChild.name%> </a
+><br />
+<% }) %>

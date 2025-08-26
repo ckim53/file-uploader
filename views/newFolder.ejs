@@ -1,0 +1,9 @@
+<% if (errorMessages) { %>
+<div><%= errorMessages[0] %></div>
+<% } %>
+<form action="/new-folder" method="POST">
+	<label for="folder-name">Folder Name:</label>
+	<input type="text" name="folderName" id="folder-name" />
+	<button type="submit">Create Folder</button>
+</form>
+<%- include('./partials/home.ejs') %>

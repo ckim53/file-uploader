@@ -1,3 +1,18 @@
 <h1>Welcome, <%= currentUser.username%></h1>
-<button onClick="window.location.href='/upload'">Upload File</button>
-<button onClick="window.location.href='/log-in'">Log Out</button>
+<button onClick="window.location.href='/dashboard/upload'">Upload File</button>
+<button onClick="window.location.href='/new-folder'">New Folder</button
+><br /><br />
+
+<h2>Folders</h2>
+<% folders.forEach(folderChild => { %>
+<div class="folder">
+	<a href="/dashboard/folders/<%= folderChild.id %>"><%= folderChild.name %></a>
+</div>
+<% }) %>
+
+<h2>Files</h2>
+<% files.forEach( fileChild => {%>
+<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
+	<%= fileChild.name%>
+</a>
+<% }) %>

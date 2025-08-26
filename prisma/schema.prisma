@@ -13,6 +13,28 @@ model User {
   password   String?
 }
 
+enum NodeType {
+  FILE
+  FOLDER
+}
+
+model Node {
+  id        Int @id @default(autoincrement())
+  type      NodeType
+  name      String
+
+  parentId    Int?
+  parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children  Node[]    @relation("NodeChildren")  
+
+  contentType  String?
+  size      Int?
+  path      String?    
+
+  @@index([parentId])
+  @@unique([parentId, name])
+}
+
 model Session {
   id        String   @id
   sid       String   @unique

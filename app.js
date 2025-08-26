@@ -5,20 +5,20 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
-const pool = require('./config/pool');
+
 require('dotenv').config();
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
-const { PrismaClient } = require('@prisma/client');
 const { body, validationResult } = require('express-validator');
-const { uploadRouter } = require('./routers/uploadRouter.js');
+const { fileRouter } = require('./routers/fileRouter');
+const folderRouter = require('./routers/folderRouter');
+const dashboardRouter = require('./routers/dashboardRouter');
+const prisma = require('./prisma');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
-
-const prisma = new PrismaClient();
 
 const sessionStore = new PrismaSessionStore(prisma, {
 	checkPeriod: 2 * 60 * 1000, //ms
@@ -76,10 +76,6 @@ app.post(
 			.isLength({ min: 3 })
 			.withMessage('Username must be at least 3 characters')
 			.custom(async (value) => {
-				// const { rows } = await pool.query(
-				// 	'SELECT 1 FROM users WHERE username = $1',
-				// 	[value]
-				// );
 				const user = await prisma.user.findUnique({
 					where: {
 						username: value,
@@ -107,10 +103,6 @@ app.post(
 		}
 		try {
 			const hashedPassword = await bcrypt.hash(req.body.password, 10);
-			// await pool.query(
-			// 	'INSERT INTO users (username, password) VALUES ($1, $2)',
-			// 	[req.body.username, hashedPassword]
-			// );
 			await prisma.user.create({
 				data: {
 					username: req.body.username,
@@ -127,12 +119,6 @@ app.post(
 passport.use(
 	new LocalStrategy(async (username, password, done) => {
 		try {
-			// const { rows } = await pool.query(
-			// 	'SELECT * FROM users WHERE username = $1',
-			// 	[username]
-			// );
-			// const user = rows[0];
-
 			const user = await prisma.user.findUnique({
 				where: {
 					username: username,
@@ -159,9 +145,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
 	try {
-		// const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [
-		// 	id,
-		// ]);
 		const user = await prisma.user.findUnique({
 			where: {
 				id: id,
@@ -178,7 +161,7 @@ app.get('/log-in', (req, res) => {
 	res.render('log-in');
 });
 
-app.get('/dashboard', (req, res) => res.render('dashboard'));
+app.use('/dashboard', dashboardRouter);
 
 app.post(
 	'/log-in',
@@ -189,6 +172,8 @@ app.post(
 	})
 );
 
-app.use('/upload', uploadRouter);
+app.use('/folders/:id/upload', fileRouter);
+app.use('/new-folder', folderRouter);
+app.use('/dashboard/folders', folderRouter);
 
 app.listen(3000, () => console.log('app listening on port 3000!'));
