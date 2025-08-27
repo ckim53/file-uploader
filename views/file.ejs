@@ -1,5 +1,10 @@
-<h1><%= file.name %></h1>
+<h1>File Details</h1>
+<p>Name: <%= file.name %></p>
 <p>Type: <%= file.contentType %></p>
 <p>Size: <%= file.size %> bytes</p>
 <p>Path: <%= file.path %></p>
-<a href="/dashboard/folders/<%= file.parentId %>">Back to folder</a>
+<a href="/dashboard/files/<%= file.id %>/download">
+	<button>Download</button>
+</a>
+<br />
+<a href="/dashboard/folders/<%= file.parentId %>">Back to folder</a><br />

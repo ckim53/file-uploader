@@ -17,5 +17,5 @@ fileRouter.post(
 	fileController.createFile
 );
 fileRouter.get('/:id/details', fileController.showFileDetails);
-
+fileRouter.get('/:id/download', ensureAuth, fileController.downloadFile);
 module.exports = { fileRouter, ensureAuth };
