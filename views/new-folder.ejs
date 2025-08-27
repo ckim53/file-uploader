@@ -1,7 +1,7 @@
 <% if (errorMessages) { %>
 <div><%= errorMessages[0] %></div>
 <% } %>
-<form action="<%= uploadAction %>" method="POST">
+<form class="upload-form" action="<%= uploadAction %>" method="POST">
 	<label for="folder-name">Folder Name:</label>
 	<input type="text" name="folderName" id="folder-name" />
 	<button type="submit">Create Folder</button>

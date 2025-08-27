@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+	font-family: 'Roboto', sans-serif;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+a.btn {
+	padding: 6px 12px;
+	background: #007bff;
+	color: white;
+	text-decoration: none;
+	border-radius: 8px;
+}
+
+a.btn:hover {
+	background: #0056b3;
+}
+
+.action-btn {
+	padding: 6px 12px;
+	color: gray;
+	text-decoration: none;
+}
+
+.action-btn:hover {
+	color: cornflowerblue;
+}
+
+.folders {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.folder a {
+	padding: 6px 12px;
+	margin: 10px;
+	background: #6da9e5;
+	color: white;
+	text-decoration: none;
+	border-radius: 8px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+#edit-form h1 input {
+	font-size: 1em;  
+	font-weight: bold;
+	font-family: inherit;
+	border: none;
+	outline: none;
+	background: transparent;
+	width: auto;
+  }
+  
+
+.folder a:hover {
+	background: #5887b7;
+}
+
+.files {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.file a {
+	padding: 6px 12px;
+	margin: 10px;
+	background: #72d8dc;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.file a:hover {
+	background: #63b6b9;
+}
+
+.delete-form {
+	padding: 6px 12px;
+}
+
+.delete-btn {
+	border: none;
+	background: none;
+	padding: 0;
+	font: inherit;
+	color: gray;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.delete-btn:hover {
+	color: #df3f00;
+}
+
+#download-btn {
+	border: none;
+	padding: 6px 12px;
+	background: #69b87c;
+	color: white;
+	text-decoration: none;
+	border-radius: 8px;
+}
+
+#download-btn:hover {
+	background-color: #218838;
+}
+
+.success-message {
+	background: #d4edda;
+	color: #155724;
+	padding: 10px 15px;
+	border-radius: 6px;
+	margin-bottom: 15px;
+	font-size: 0.95em;
+}
+
+.upload-form {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.upload-form input[type='file'] {
+	border: 1px solid #ccc;
+	padding: 6px;
+	border-radius: 6px;
+	font-size: 0.9em;
+}
+
+.upload-form button {
+	padding: 6px 12px;
+	background: #69b87c;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.upload-form button:hover {
+	background: #218838;
+}
+
+#logout {
+	margin-top: 20px;
+	text-decoration: underline;
+}

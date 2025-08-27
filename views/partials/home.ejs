@@ -1,9 +1,5 @@
 <% if (typeof parentId !== 'undefined' && parentId) { %>
-<a href="/dashboard/folders/<%= parentId %>">
-	<button>Back</button>
-</a>
+<a href="/dashboard/folders/<%= parentId %>" class="btn"> Back </a>
 <% } else { %>
-<a href="/dashboard">
-	<button>Back to Dashboard</button>
-</a>
+<a href="/dashboard" class="btn"> Back to Dashboard </a>
 <% } %>

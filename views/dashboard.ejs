@@ -1,18 +1,26 @@
 <h1>Welcome, <%= currentUser.username%></h1>
-<button onClick="window.location.href='/dashboard/upload'">Upload File</button>
-<button onClick="window.location.href='/dashboard/new-folder'">New Folder</button
-><br /><br />
-
-<h2>Folders</h2>
-<% folders.forEach(folderChild => { %>
-<div class="folder">
-	<a href="/dashboard/folders/<%= folderChild.id %>"><%= folderChild.name %></a>
+<a href="/dashboard/upload" class="action-btn">Upload File</a>
+<a href="/dashboard/new-folder" class="action-btn">New Folder</a>
+<br /><br />
+<h3>Folders</h3>
+<div class="folders">
+	<% folders.forEach(folderChild => { %>
+	<div class="folder">
+		<a href="/dashboard/folders/<%= folderChild.id %>"
+			><%= folderChild.name %></a
+		>
+	</div>
+	<% }) %>
+</div>
+<br />
+<h3>Files</h3>
+<% files.forEach( fileChild => {%>
+<div class="file">
+	<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
+		<%= fileChild.name%>
+	</a>
 </div>
 <% }) %>
-
-<h2>Files</h2>
-<% files.forEach( fileChild => {%>
-<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
-	<%= fileChild.name%>
-</a>
-<% }) %>
+<form action="/logout" method="POST">
+	<button type="submit" id="logout" class="delete-btn">Log Out</button>
+</form>

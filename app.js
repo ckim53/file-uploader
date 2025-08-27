@@ -4,6 +4,7 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const sessionMiddleware = require('./config/session');
 const passport = require('./config/passport');
+const expressLayouts = require('express-ejs-layouts');
 
 require('dotenv').config();
 const { body, validationResult } = require('express-validator');
@@ -12,8 +13,11 @@ const folderRouter = require('./routers/folderRouter');
 const dashboardRouter = require('./routers/dashboardRouter');
 
 const app = express();
+app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layouts/main');
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 
@@ -117,3 +121,10 @@ app.use('/dashboard/files', fileRouter);
 app.use('/dashboard/folders', folderRouter);
 
 app.listen(3000, () => console.log('app listening on port 3000!'));
+app.post('/logout', (req, res) => {
+	req.logout(() => {
+		req.session.destroy(() => {
+			res.redirect('/log-in');
+		});
+	});
+});

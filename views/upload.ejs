@@ -1,7 +1,7 @@
 <% if (successMessages) { %>
 <div><%= successMessages[0] %></div>
 <% } %>
-<form action="<%=uploadAction%>" method="POST" enctype="multipart/form-data">
+<form class="upload-form" action="<%=uploadAction%>" method="POST" enctype="multipart/form-data">
 	<input type="file" name="file" />
 	<button type="submit">Upload</button>
 </form>

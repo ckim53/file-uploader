@@ -18,4 +18,5 @@ fileRouter.post(
 );
 fileRouter.get('/:id/details', fileController.showFileDetails);
 fileRouter.get('/:id/download', ensureAuth, fileController.downloadFile);
+fileRouter.delete('/:id', fileController.deleteFile);
 module.exports = { fileRouter, ensureAuth };

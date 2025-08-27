@@ -1,15 +1,11 @@
 <h1 id="folder-name"><%= folder.name %></h1>
-<button
-	onClick="window.location.href='/dashboard/folders/<%=folder.id%>/upload'"
+<a href="/dashboard/folders/<%=folder.id%>/upload" class="action-btn"
+	>Upload File</a
 >
-	Upload File
-</button>
-<button
-	onClick="window.location.href='/dashboard/folders/<%=folder.id%>/new-folder'"
+<a href="/dashboard/folders/<%=folder.id%>/new-folder" class="action-btn"
+	>New Folder</a
 >
-	New Folder
-</button>
-<button id="edit-btn">Edit Name</button>
+<a id="edit-btn" class="action-btn">Edit Name</a>
 <form
 	id="edit-form"
 	action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
@@ -20,26 +16,32 @@
 	<button type="submit">Save</button>
 	<button type="button" id="cancel-btn">Cancel</button>
 </form>
+<br /><br />
+<% folderChildren.forEach( folderChild => {%>
+<div class="folder">
+	<a href="/dashboard/folders/<%= folderChild.id %>">
+		<%= folderChild.name%>
+	</a>
+</div>
+<br />
+<% }) %> <% fileChildren.forEach( fileChild => {%>
+<div class="file">
+	<a href="/dashboard/folders/<%= fileChild.id %>/details">
+		<%= fileChild.name%>
+	</a>
+</div>
+<br />
+<% }) %>
+<br />
 <form
+	class="delete-form"
 	action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
 	method="POST"
 	onsubmit="return confirm('Delete this folder and all its contents?');"
 >
-	<br /><button type="submit">Delete Folder</button>
+	<button class="delete-btn" type="submit">Delete Folder</button>
 </form>
-<br />
-<% folderChildren.forEach( folderChild => {%>
-<a href="/dashboard/folders/<%= folderChild.id %>" class="folder-child">
-	<h3><%= folderChild.name%></h3>
-</a>
-<% }) %> <% fileChildren.forEach( fileChild => {%>
-<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
-	<%= fileChild.name%> </a
-><br />
-<% }) %>
-<br />
 <br /><br />
-
 <script>
 	const editBtn = document.getElementById('edit-btn');
 	const editForm = document.getElementById('edit-form');
@@ -50,6 +52,10 @@
 		folderName.style.display = 'none';
 		editBtn.style.display = 'none';
 		editForm.style.display = 'block';
+
+		const input = editForm.querySelector('input');
+		input.focus();
+		input.setSelectionRange(input.value.length, input.value.length);
 	});
 
 	cancelBtn.addEventListener('click', () => {

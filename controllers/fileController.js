@@ -2,25 +2,6 @@ const prisma = require('../config/prisma');
 const path = require('path');
 const uploadsDir = path.resolve(__dirname, '../uploads');
 
-const downloadFile = async (req, res, next) => {
-	try {
-		const fileId = Number(req.params.id);
-		const file = await prisma.node.findFirst({
-			where: { id: fileId, type: 'FILE' },
-		});
-		if (!file) return res.status(404).send('File not found');
-		const absolutePath = path.resolve(uploadsDir, path.basename(file.path));
-
-		if (!absolutePath.startsWith(uploadsDir)) {
-			return res.status(403).send('Invalid file path');
-		}
-
-		res.download(absolutePath, file.name);
-	} catch (err) {
-		next(err);
-	}
-};
-
 const createFile = async (req, res) => {
 	const parentId = req.params.id ? Number(req.params.id) : null;
 	const folderId = req.params.id || null;
@@ -39,6 +20,40 @@ const createFile = async (req, res) => {
 	parentId
 		? res.redirect(`/dashboard/folders/${folderId}`)
 		: res.redirect('/dashboard');
+};
+
+const deleteFile = async (req, res) => {
+	const fileId = req.params.id ? Number(req.params.id) : null;
+	const file = await prisma.node.findFirst({
+		where: {
+			id: fileId,
+			type: 'FILE',
+		},
+	});
+	const parentId = file.parentId;
+	await prisma.node.delete({ where: { id: Number(fileId) } });
+	parentId
+		? res.redirect(`/dashboard/folders/${parentId}`)
+		: res.redirect('/dashboard');
+};
+
+const downloadFile = async (req, res, next) => {
+	try {
+		const fileId = Number(req.params.id);
+		const file = await prisma.node.findFirst({
+			where: { id: fileId, type: 'FILE' },
+		});
+		if (!file) return res.status(404).send('File not found');
+		const absolutePath = path.resolve(uploadsDir, path.basename(file.path));
+
+		if (!absolutePath.startsWith(uploadsDir)) {
+			return res.status(403).send('Invalid file path');
+		}
+
+		res.download(absolutePath, file.name);
+	} catch (err) {
+		next(err);
+	}
 };
 
 const showUploadForm = (req, res) => {
@@ -67,6 +82,7 @@ const showFileDetails = async (req, res) => {
 
 module.exports = {
 	createFile,
+	deleteFile,
 	downloadFile,
 	showFileDetails,
 	showUploadForm,
