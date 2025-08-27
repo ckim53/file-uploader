@@ -1,4 +1,4 @@
-const prisma = require('../prisma');
+const prisma = require('../config/prisma');
 const path = require('path');
 const uploadsDir = path.resolve(__dirname, '../uploads');
 

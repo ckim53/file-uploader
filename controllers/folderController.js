@@ -1,4 +1,4 @@
-const prisma = require('../prisma');
+const prisma = require('../config/prisma');
 
 const showFolderForm = (req, res) => {
 	const parentId = req.params.id ? Number(req.params.id) : null;

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const fileRouter = Router();
 const fileController = require('../controllers/fileController');
-const upload = require('../storage');
+const upload = require('../config/storage');
 
 const ensureAuth = (req, res, next) => {
 	if (req.isAuthenticated && req.isAuthenticated()) return next();

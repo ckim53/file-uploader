@@ -1,19 +1,15 @@
 const path = require('node:path');
 const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const sessionMiddleware = require('./config/session');
+const passport = require('./config/passport');
 
 require('dotenv').config();
-const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const { body, validationResult } = require('express-validator');
 const { fileRouter } = require('./routers/fileRouter');
 const folderRouter = require('./routers/folderRouter');
 const dashboardRouter = require('./routers/dashboardRouter');
-const prisma = require('./prisma');
 
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -21,25 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 
-const sessionStore = new PrismaSessionStore(prisma, {
-	checkPeriod: 2 * 60 * 1000, //ms
-	dbRecordIdIsSessionId: true,
-	dbRecordIdFunction: undefined,
-});
-
-app.use(
-	session({
-		store: sessionStore,
-		secret: process.env.SECRET,
-		resave: false,
-		saveUninitialized: false,
-		cookie: {
-			httpOnly: true,
-			sameSite: 'lax',
-			maxAge: 1000 * 60 * 60 * 24, // 1 day
-		},
-	})
-);
+app.use(sessionMiddleware);
 
 app.use(methodOverride('_method'));
 app.use(passport.initialize());
@@ -118,46 +96,8 @@ app.post(
 	}
 );
 
-passport.use(
-	new LocalStrategy(async (username, password, done) => {
-		try {
-			const user = await prisma.user.findUnique({
-				where: {
-					username: username,
-				},
-			});
-
-			if (!user) {
-				return done(null, false, { message: 'Incorrect username' });
-			}
-			const match = await bcrypt.compare(password, user.password);
-			if (!match) {
-				return done(null, false, { message: 'Incorrect password' });
-			}
-			return done(null, user);
-		} catch (err) {
-			return done(err);
-		}
-	})
-);
-
-passport.serializeUser((user, done) => {
-	done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-	try {
-		const user = await prisma.user.findUnique({
-			where: {
-				id: id,
-			},
-		});
-		if (!user) return done(null, false);
-		return done(null, user);
-	} catch (err) {
-		return done(err);
-	}
-});
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/log-in', (req, res) => {
 	res.render('log-in');

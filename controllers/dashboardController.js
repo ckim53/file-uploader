@@ -1,4 +1,4 @@
-const prisma = require('../prisma');
+const prisma = require('../config/prisma');
 
 const showDashboard = async (req, res, next) => {
 	try {

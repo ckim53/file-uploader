@@ -3,7 +3,7 @@ const dashboardRouter = Router();
 const { showDashboard } = require('../controllers/dashboardController');
 const fileController = require('../controllers/fileController');
 const folderController = require('../controllers/folderController');
-const upload = require('../storage');
+const upload = require('../config/storage');
 const { ensureAuth } = require('./fileRouter');
 
 dashboardRouter.get('/', showDashboard);

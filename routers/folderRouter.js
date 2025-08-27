@@ -2,7 +2,7 @@ const { Router } = require('express');
 const folderRouter = Router();
 const folderController = require('../controllers/folderController');
 const fileController = require('../controllers/fileController');
-const upload = require('../storage');
+const upload = require('../config/storage');
 const { ensureAuth } = require('./fileRouter');
 
 folderRouter.get('/', folderController.showFolderForm);
