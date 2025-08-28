@@ -5,12 +5,13 @@ const methodOverride = require('method-override');
 const sessionMiddleware = require('./config/session');
 const passport = require('./config/passport');
 const expressLayouts = require('express-ejs-layouts');
-
+const prisma = require('./config/prisma');
 require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 const { fileRouter } = require('./routers/fileRouter');
 const folderRouter = require('./routers/folderRouter');
 const dashboardRouter = require('./routers/dashboardRouter');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 app.use(express.static('public'));
@@ -48,7 +49,10 @@ app.get('/sign-up', (req, res) => {
 
 	req.session.formErrors = null;
 	req.session.formData = null;
-	res.render('sign-up', { errors, data });
+	const errorMessages = errors
+		? Object.values(errors).map((err) => err.msg)
+		: [];
+	res.render('sign-up', { errorMessages, data });
 });
 
 app.post(
