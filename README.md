@@ -1,45 +1,45 @@
-File Uploader App
+**File Uploader App**
 
 This project is essentially stripped-down version of Google Drive. I built a file uploader app with authentication, database migrations, and cloud storage in order to practice full-stack concepts.
 
-Features
+**Features**
 
-User authentication with Passport.js
+- User authentication with Passport.js
 
-File uploads stored in Cloudinary
+- File uploads stored in Cloudinary
 
-File URLs and user info mapped in a PostgreSQL database
+- File URLs and user info mapped in a PostgreSQL database
 
-Prisma as the ORM for managing schema and migrations
+- Prisma as the ORM for managing schema and migrations
 
-What I Learned
+**What I Learned**
 
-How to integrate Prisma with an existing codebase to handle database migrations more smoothly
+- How to integrate Prisma with an existing codebase to handle database migrations more smoothly
 
-Setting up user authentication flows with Passport
+- Setting up user authentication flows with Passport
 
-Designing a database schema that maps files to users and stores Cloudinary URLs
+- Designing a database schema that maps files to users and stores Cloudinary URLs
 
-Thinking about app structure and separating out config vs. feature logic
+- Thinking about app structure and separating out config vs. feature logic
 
-Handling a bigger project from start to finish and seeing how all the pieces (auth, db, storage, UI) tie together
+- Handling a bigger project from start to finish and seeing how all the pieces (auth, db, storage, UI) tie together
 
-Tech Stack
+**Tech Stack**
 
-Node.js / Express
+- Node.js / Express
 
-PostgreSQL
+- PostgreSQL
 
-Prisma
+- Prisma
 
-Passport.js
+- Passport.js
 
-Cloudinary
+- Cloudinary
 
 Future Improvements
 
-Add folder nesting (subdirectories)
+- Add folder nesting (subdirectories)
 
-Better UI for file previews
+- Better UI for file previews
 
-Sharing permissions between users
+- Sharing permissions between users
