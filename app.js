@@ -123,8 +123,6 @@ app.post(
 );
 app.use('/dashboard/files', fileRouter);
 app.use('/dashboard/folders', folderRouter);
-
-app.listen(3000, () => console.log('app listening on port 3000!'));
 app.post('/logout', (req, res) => {
 	req.logout(() => {
 		req.session.destroy(() => {
@@ -132,3 +130,5 @@ app.post('/logout', (req, res) => {
 		});
 	});
 });
+
+app.listen(3000, () => console.log('app listening on port 3000!'));

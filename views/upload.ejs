@@ -1,8 +1,14 @@
 <% if (successMessages) { %>
 <div><%= successMessages[0] %></div>
 <% } %>
-<form class="upload-form" action="<%=uploadAction%>" method="POST" enctype="multipart/form-data">
-	<input type="file" name="file" />
+<form
+	class="upload-form"
+	action="<%=uploadAction%>"
+	method="POST"
+	enctype="multipart/form-data"
+>
+	<input type="file" name="file" required />
 	<button type="submit">Upload</button>
 </form>
+
 <%- include('./partials/home.ejs') %>

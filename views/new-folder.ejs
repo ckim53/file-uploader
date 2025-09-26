@@ -3,7 +3,8 @@
 <% } %>
 <form class="upload-form" action="<%= uploadAction %>" method="POST">
 	<label for="folder-name">Folder Name:</label>
-	<input type="text" name="folderName" id="folder-name" />
+	<input type="text" name="folderName" id="folder-name" required />
 	<button type="submit">Create Folder</button>
+	<div id="error-message" style="color: red; margin-top: 5px"></div>
 </form>
 <%- include('./partials/home.ejs') %>
