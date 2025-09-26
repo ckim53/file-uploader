@@ -6,9 +6,19 @@
 	action="<%=uploadAction%>"
 	method="POST"
 	enctype="multipart/form-data"
+	onsubmit="disableButton(this)"
 >
 	<input type="file" name="file" required />
 	<button type="submit">Upload</button>
 </form>
+
+<script>
+	function disableButton(form) {
+		const fileInput = form.querySelector("input[type='file']");
+		const button = form.querySelector("button[type='submit']");
+		button.disabled = true;
+		button.innerText = 'Uploading...';
+	}
+</script>
 
 <%- include('./partials/home.ejs') %>

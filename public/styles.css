@@ -45,15 +45,14 @@ a.btn:hover {
 }
 
 #edit-form h1 input {
-	font-size: 1em;  
+	font-size: 1em;
 	font-weight: bold;
 	font-family: inherit;
 	border: none;
 	outline: none;
 	background: transparent;
 	width: auto;
-  }
-  
+}
 
 .folder a:hover {
 	background: #5887b7;
@@ -83,19 +82,22 @@ a.btn:hover {
 	padding: 6px 12px;
 }
 
-.delete-btn {
+.delete-btn, #logout {
 	border: none;
 	background: none;
 	padding: 0;
 	font: inherit;
-	color: gray;
 	font-weight: bold;
 	text-decoration: none;
 	cursor: pointer;
 }
 
-.delete-btn:hover {
+.delete-btn {
 	color: #df3f00;
+}
+
+.delete-btn:hover {
+	color: #a63102;
 }
 
 #download-btn {
@@ -149,15 +151,17 @@ a.btn:hover {
 
 #logout {
 	margin-top: 20px;
-	text-decoration: underline;
 }
 
-/* === Auth Pages (Login/Signup) === */
+#logout:hover {
+	color: gray;
+}
+
 .auth-container {
 	background: #fff;
 	padding: 2rem;
 	border-radius: 10px;
-	box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	width: 320px;
 	margin: 60px auto;
 	text-align: center;

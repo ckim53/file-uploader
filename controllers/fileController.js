@@ -1,6 +1,5 @@
 const prisma = require('../config/prisma');
-const path = require('path');
-const uploadsDir = path.resolve(__dirname, '../uploads');
+const { cloudinary } = require('../config/cloudinary');
 
 const createFile = async (req, res) => {
 	const parentId = req.params.id ? Number(req.params.id) : null;
@@ -13,7 +12,8 @@ const createFile = async (req, res) => {
 			parentId: parentId,
 			contentType: req.file.mimetype,
 			size: req.file.size,
-			path: req.file.path,
+			url: req.file.path,
+			cloudinaryId: req.file.filename,
 		},
 	});
 	req.flash('success', 'File Uploaded!');
@@ -30,30 +30,27 @@ const deleteFile = async (req, res) => {
 			type: 'FILE',
 		},
 	});
-	const parentId = file.parentId;
+
+	if (file.cloudinaryId) {
+		await cloudinary.uploader.destroy(file.cloudinaryId);
+	}
+
 	await prisma.node.delete({ where: { id: Number(fileId) } });
+	const parentId = file.parentId;
+
 	parentId
 		? res.redirect(`/dashboard/folders/${parentId}`)
 		: res.redirect('/dashboard');
 };
 
-const downloadFile = async (req, res, next) => {
-	try {
-		const fileId = Number(req.params.id);
-		const file = await prisma.node.findFirst({
-			where: { id: fileId, type: 'FILE' },
-		});
-		if (!file) return res.status(404).send('File not found');
-		const absolutePath = path.resolve(uploadsDir, path.basename(file.path));
-
-		if (!absolutePath.startsWith(uploadsDir)) {
-			return res.status(403).send('Invalid file path');
-		}
-
-		res.download(absolutePath, file.name);
-	} catch (err) {
-		next(err);
-	}
+const downloadFile = async (req, res) => {
+	const fileId = Number(req.params.id);
+	const file = await prisma.node.findFirst({
+		where: { id: fileId, type: 'FILE' },
+	});
+	if (!file) return res.status(404).send('File not found');
+	console.log(file.url);
+	res.redirect(file.url);
 };
 
 const showUploadForm = (req, res) => {

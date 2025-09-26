@@ -5,12 +5,14 @@
 <a href="/dashboard/files/<%= file.id %>/download">
 	<button id="download-btn">Download</button>
 </a>
-<br><br>
+<br /><br />
 <form
-  action="/dashboard/files/<%= file.id %>?_method=DELETE"
-  method="POST"
-  onsubmit="return confirm('Delete this file?');"
+	action="/dashboard/files/<%= file.id %>?_method=DELETE"
+	method="POST"
+	onsubmit="return confirm('Delete this file?');"
 >
-  <button class="delete-btn" type="submit">Delete File</button>
-</form><br>
-<a href="/dashboard/folders/<%= file.parentId %>" class="btn">Back to Folder</a
+	<button class="delete-btn" type="submit">Delete File</button>
+</form>
+<br />
+
+<%- include('./partials/home.ejs') %>

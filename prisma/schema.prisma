@@ -29,7 +29,8 @@ model Node {
 
   contentType  String?
   size      Int?
-  path      String?    
+  url         String?  
+  cloudinaryId String?
 
   @@index([parentId])
   @@unique([parentId, name])

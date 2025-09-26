@@ -1,10 +1,24 @@
 <% if (errorMessages) { %>
 <div><%= errorMessages[0] %></div>
 <% } %>
-<form class="upload-form" action="<%= uploadAction %>" method="POST">
+<form
+	class="upload-form"
+	action="<%= uploadAction %>"
+	method="POST"
+	onsubmit="disableButton(this)"
+>
 	<label for="folder-name">Folder Name:</label>
 	<input type="text" name="folderName" id="folder-name" required />
 	<button type="submit">Create Folder</button>
-	<div id="error-message" style="color: red; margin-top: 5px"></div>
 </form>
+
+<script>
+	function disableButton(form) {
+		const fileInput = form.querySelector("input[type='text']");
+		const button = form.querySelector("button[type='submit']");
+		button.disabled = true;
+		button.innerText = 'Uploading...';
+	}
+</script>
+
 <%- include('./partials/home.ejs') %>
