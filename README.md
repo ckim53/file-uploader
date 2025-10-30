@@ -1,3 +1,3 @@
-**File Uploader App**
+# File Uploader App
 
-This project is essentially stripped-down version of Google Drive. I built a file uploader app with authentication, database migrations, and cloud storage in order to practice full-stack concepts.
+A secure file storage web app built with Node.js and Express. Users can log in, upload, organize, and download files safely. The app uses PostgreSQL for data management, Passport.js for authentication, and Cloudinary for cloud-based file storage.
