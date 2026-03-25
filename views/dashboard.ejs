@@ -1,32 +1,35 @@
-<h1>Welcome, <%= currentUser.username%></h1>
-<a href="/dashboard/upload" class="action-btn">Upload File</a>
-<a href="/dashboard/new-folder" class="action-btn">New Folder</a>
-<br /><br />
-<h3>Folders</h3>
-<div class="folders">
-	<% folders.forEach(folderChild => { %>
-	<div class="folder">
-		<a href="/dashboard/folders/<%= folderChild.id %>"
-			><%= folderChild.name %></a
-		>
+<div class="flex h-screen">
+	<!-- sidebar -->
+	<aside class="w-56 bg-gray-900 text-white p-5">
+		<h2 class="text-xl font-bold mb-6">CloudVault</h2>
+		<a href="/dashboard" class="block mb-2 hover:text-gray-300">All Files</a>
+	</aside>
+
+	<!-- main -->
+	<div class="flex-1 flex flex-col">
+		<!-- topbar -->
+		<header class="flex justify-between items-center p-4 border-b">
+			<h3 class="text-lg font-semibold">
+				Welcome, <%= currentUser.username %>
+			</h3>
+
+			<div class="flex gap-2">
+				<a
+					href="/dashboard/upload"
+					class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+				>
+					Upload
+				</a>
+				<a
+					href="/dashboard/new-folder"
+					class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+				>
+					New Folder
+				</a>
+			</div>
+		</header>
+
+		<!-- content -->
+		<div class="p-6"></div>
 	</div>
-	<% }) %>
 </div>
-<br />
-<h3>Files</h3>
-<% files.forEach( fileChild => {%>
-<div class="file">
-	<a href="/dashboard/folders/<%= fileChild.id %>/details" class="file-child">
-		<%= fileChild.name%>
-	</a>
-</div><br>
-<% }) %>
-<form action="/logout" method="POST">
-	<button
-		type="submit"
-		id="logout"
-		onsubmit="return confirm('Are you sure you want to log out?');"
-	>
-		Log Out
-	</button>
-</form>
