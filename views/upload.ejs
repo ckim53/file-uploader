@@ -1,24 +1,91 @@
-<% if (successMessages) { %>
-<div><%= successMessages[0] %></div>
-<% } %>
-<form
-	class="upload-form"
-	action="<%=uploadAction%>"
-	method="POST"
-	enctype="multipart/form-data"
-	onsubmit="disableButton(this)"
->
-	<input type="file" name="file" required />
-	<button type="submit">Upload</button>
-</form>
+<div class="flex h-screen">
+	<!-- sidebar -->
+	<aside class="w-56 bg-gray-900 text-white p-5">
+		<h2 class="text-xl font-bold mb-6">CloudVault</h2>
+		<a href="/dashboard" class="block mb-2 hover:text-gray-300">All Files</a>
+	</aside>
+
+	<!-- main -->
+	<div class="flex-1 flex flex-col">
+		<!-- topbar -->
+		<header class="p-4 border-b">
+			<h3 class="text-lg font-semibold">Upload File</h3>
+		</header>
+
+		<!-- content -->
+		<div class="flex justify-center pt-16">
+			<div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+				<% if (successMessages) { %>
+				<div class="text-green-600 mb-4"><%= successMessages[0] %></div>
+				<% } %>
+
+				<form
+					action="<%= uploadAction %>"
+					method="POST"
+					enctype="multipart/form-data"
+					onsubmit="disableButton(this)"
+					class="flex flex-col gap-4"
+				>
+					<div
+						id="drop-zone"
+						class="border-2 border-dashed border-gray-300 p-8 text-center rounded-lg cursor-pointer hover:bg-gray-50"
+					>
+						<p class="text-gray-500 mb-2">Drag & drop a file here</p>
+						<p class="text-sm text-gray-400">or click to select</p>
+
+						<input
+							type="file"
+							name="file"
+							id="fileInput"
+							class="hidden"
+							required
+						/>
+					</div>
+
+					<button
+						type="submit"
+						class="bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+					>
+						Upload
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 	function disableButton(form) {
-		const fileInput = form.querySelector("input[type='file']");
 		const button = form.querySelector("button[type='submit']");
 		button.disabled = true;
 		button.innerText = 'Uploading...';
 	}
-</script>
 
-<%- include('./partials/home.ejs') %>
+	const dropZone = document.getElementById('drop-zone');
+	const fileInput = document.getElementById('fileInput');
+
+	// click to open file picker
+	dropZone.addEventListener('click', () => fileInput.click());
+
+	// drag over
+	dropZone.addEventListener('dragover', (e) => {
+		e.preventDefault();
+		dropZone.classList.add('bg-gray-100');
+	});
+
+	// drag leave
+	dropZone.addEventListener('dragleave', () => {
+		dropZone.classList.remove('bg-gray-100');
+	});
+
+	// drop file
+	dropZone.addEventListener('drop', (e) => {
+		e.preventDefault();
+		dropZone.classList.remove('bg-gray-100');
+
+		const files = e.dataTransfer.files;
+		if (files.length > 0) {
+			fileInput.files = files;
+		}
+	});
+</script>

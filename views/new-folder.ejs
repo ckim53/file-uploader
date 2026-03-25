@@ -1,24 +1,54 @@
-<% if (errorMessages) { %>
-<div><%= errorMessages[0] %></div>
-<% } %>
-<form
-	class="upload-form"
-	action="<%= uploadAction %>"
-	method="POST"
-	onsubmit="disableButton(this)"
->
-	<label for="folder-name">Folder Name:</label>
-	<input type="text" name="folderName" id="folder-name" required />
-	<button type="submit">Create Folder</button>
-</form>
+<div class="flex h-screen">
+	<!-- sidebar -->
+	<aside class="w-56 bg-gray-900 text-white p-5">
+		<h2 class="text-xl font-bold mb-6">CloudVault</h2>
+		<a href="/dashboard" class="block mb-2 hover:text-gray-300">All Files</a>
+	</aside>
+
+	<!-- main -->
+	<div class="flex-1 flex flex-col">
+		<!-- topbar -->
+		<header class="p-4 border-b">
+			<h3 class="text-lg font-semibold">Create New Folder</h3>
+		</header>
+
+		<!-- content -->
+		<div class="flex justify-center pt-16">
+			<div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+				<% if (errorMessages) { %>
+				<div class="text-red-500 mb-4"><%= errorMessages[0] %></div>
+				<% } %>
+
+				<form
+					action="<%= uploadAction %>"
+					method="POST"
+					onsubmit="disableButton(this)"
+					class="flex flex-col gap-4"
+				>
+					<label class="text-sm font-medium">Folder Name</label>
+					<input
+						type="text"
+						name="folderName"
+						required
+						class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+					/>
+
+					<button
+						type="submit"
+						class="bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+					>
+						Create Folder
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 	function disableButton(form) {
-		const fileInput = form.querySelector("input[type='text']");
 		const button = form.querySelector("button[type='submit']");
 		button.disabled = true;
-		button.innerText = 'Uploading...';
+		button.innerText = 'Creating...';
 	}
 </script>
-
-<%- include('./partials/home.ejs') %>
