@@ -16,6 +16,7 @@ const createFolder = async (req, res) => {
 			type: 'FOLDER',
 			name: folderName,
 			parentId: parentId,
+			userId: req.user.id,
 		},
 	});
 	parentId
@@ -48,7 +49,7 @@ const editFolder = async (req, res, next) => {
 		const newName = req.body.name;
 
 		await prisma.node.update({
-			where: { id: folderId },
+			where: { id: folderId, userId: req.user.id },
 			data: { name: newName },
 		});
 
@@ -71,6 +72,7 @@ const showContents = async (req, res) => {
 			where: {
 				parentId: folderId,
 				type: 'FILE',
+				userId: req.user.id,
 			},
 		});
 
@@ -78,13 +80,14 @@ const showContents = async (req, res) => {
 			where: {
 				parentId: folderId,
 				type: 'FOLDER',
+				userId: req.user.id,
 			},
 		});
 		res.render('folder', {
 			folder,
 			fileChildren,
 			folderChildren,
-			parentId: folder.parentId
+			parentId: folder.parentId,
 		});
 	} catch (err) {
 		next(err);

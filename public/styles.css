@@ -190,7 +190,7 @@ a.btn:hover {
 	font-size: 0.95rem;
 }
 
-.auth-container button {
+.auth-container .primary-btn {
 	width: 100%;
 	padding: 0.7rem;
 	background: #007bff;

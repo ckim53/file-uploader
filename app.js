@@ -43,6 +43,20 @@ app.get('/', async (req, res) => {
 	res.render('index');
 });
 
+app.post('/demo-login', async (req, res, next) => {
+	try {
+		req.body.username = 'demo';
+		req.body.password = 'demo123';
+
+		passport.authenticate('local', {
+			successRedirect: '/dashboard',
+			failureRedirect: '/log-in',
+		})(req, res, next);
+	} catch (err) {
+		next(err);
+	}
+});
+
 app.get('/sign-up', (req, res) => {
 	const errors = req.session.formErrors || null;
 	const data = req.session.formData || {};

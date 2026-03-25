@@ -1,8 +1,25 @@
-<div class="auth-container">
-	<h1>Welcome</h1>
-	<p>Please log in or sign up to continue.</p>
-	<div style="margin-top: 1.5rem">
-		<a href="/log-in" class="btn">Log In</a>
-		<a href="/sign-up" class="btn" style="margin-left: 10px">Sign Up</a>
-	</div>
-</div>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body>
+		<div class="auth-container">
+			<h1>Welcome</h1>
+			<p>Please log in or sign up to continue.</p>
+
+			<div class="mt-6">
+				<a href="/log-in" class="primary-btn">Log In</a>
+				<a href="/sign-up" class="primary-btn">Sign Up</a>
+
+				<form action="/demo-login" method="POST" class="mt-4">
+					<button
+						class="bg-blue-100 text-sm text-blue-600 px-4 py-1 rounded hover:bg-blue-50"
+					>
+						Try Demo
+					</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

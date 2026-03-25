@@ -6,12 +6,14 @@ const showDashboard = async (req, res, next) => {
 			where: {
 				parentId: null,
 				type: 'FOLDER',
+				userId: req.user.id
 			},
 		});
 		const files = await prisma.node.findMany({
 			where: {
 				parentId: null,
 				type: 'FILE',
+				userId: req.user.id
 			},
 		});
 		res.render('dashboard', {

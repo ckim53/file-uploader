@@ -8,9 +8,12 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username     String @unique
-  password   String?
+  id          Int     @id @default(autoincrement())
+  username    String  @unique
+  password    String?
+  displayName String?
+
+  nodes       Node[]
 }
 
 enum NodeType {
@@ -23,14 +26,17 @@ model Node {
   type      NodeType
   name      String
 
-  parentId    Int?
+  parentId  Int?
   parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id], onDelete: Cascade)
-  children  Node[]    @relation("NodeChildren")  
+  children  Node[]    @relation("NodeChildren")
 
-  contentType  String?
-  size      Int?
-  url         String?  
-  cloudinaryId String?
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  contentType   String?
+  size          Int?
+  url           String?
+  cloudinaryId  String?
 
   @@index([parentId])
   @@unique([parentId, name])

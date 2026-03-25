@@ -9,6 +9,7 @@ const createFile = async (req, res) => {
 		data: {
 			type: 'FILE',
 			name: req.file.originalname,
+			userId: req.user.id,
 			parentId: parentId,
 			contentType: req.file.mimetype,
 			size: req.file.size,
