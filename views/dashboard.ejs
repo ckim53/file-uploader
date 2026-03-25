@@ -30,6 +30,30 @@
 		</header>
 
 		<!-- content -->
-		<div class="p-6"></div>
+		<div class="p-6">
+			<h3 class="text-lg font-semibold mb-3">Folders</h3>
+			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+				<% folders.forEach(folderChild => { %>
+				<a
+					href="/dashboard/folders/<%= folderChild.id %>"
+					class="bg-cyan-100 p-4 rounded-lg hover:bg-cyan-200 text-center"
+				>
+					<div class="mt-2 text-sm truncate"><%= folderChild.name %></div>
+				</a>
+				<% }) %>
+			</div>
+
+			<h3 class="text-lg font-semibold mb-3">Files</h3>
+			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+				<% files.forEach(fileChild => { %>
+				<a
+					href="/dashboard/folders/<%= fileChild.id %>/details"
+					class="bg-blue-100 p-4 rounded-lg hover:bg-blue-200 text-center"
+				>
+					<div class="mt-2 text-sm truncate"><%= fileChild.name %></div>
+				</a>
+				<% }) %>
+			</div>
+		</div>
 	</div>
 </div>

@@ -1,18 +1,39 @@
-<h1>File Details</h1>
-<p>Name: <%= file.name %></p>
-<p>Type: <%= file.contentType %></p>
-<p>Size: <%= file.size %> bytes</p>
-<a href="/dashboard/files/<%= file.id %>/download">
-	<button id="download-btn">Download</button>
-</a>
-<br /><br />
-<form
-	action="/dashboard/files/<%= file.id %>?_method=DELETE"
-	method="POST"
-	onsubmit="return confirm('Delete this file?');"
->
-	<button class="delete-btn" type="submit">Delete File</button>
-</form>
-<br />
+<div class="flex h-screen">
+	<!-- sidebar -->
+	<aside class="w-56 bg-gray-900 text-white p-5">
+		<h2 class="text-xl font-bold mb-6">CloudVault</h2>
+		<a href="/dashboard" class="block mb-2 hover:text-gray-300">All Files</a>
+	</aside>
 
-<%- include('./partials/home.ejs') %>
+	<!-- main -->
+	<div class="flex-1 flex flex-col">
+		<header class="p-4 border-b">
+			<h3 class="text-lg font-semibold">File Details</h3>
+		</header>
+
+		<div class="p-6">
+			<p><strong>Name:</strong> <%= file.name %></p>
+			<p><strong>Type:</strong> <%= file.contentType %></p>
+			<p><strong>Size:</strong> <%= file.size %> bytes</p>
+
+			<div class="mt-4 flex gap-3">
+				<a
+					href="/dashboard/files/<%= file.id %>/download"
+					class="bg-blue-500 text-white px-4 py-2 rounded"
+				>
+					Download
+				</a>
+
+				<form
+					action="/dashboard/files/<%= file.id %>?_method=DELETE"
+					method="POST"
+					onsubmit="return confirm('Delete this file?');"
+				>
+					<button class="bg-red-500 text-white px-4 py-2 rounded">
+						Delete
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

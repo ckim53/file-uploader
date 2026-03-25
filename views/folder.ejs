@@ -1,68 +1,112 @@
-<h1 id="folder-name"><%= folder.name %></h1>
-<a href="/dashboard/folders/<%=folder.id%>/upload" class="action-btn"
-	>Upload File</a
->
-<a href="/dashboard/folders/<%=folder.id%>/new-folder" class="action-btn"
-	>New Folder</a
->
-<a id="edit-btn" class="action-btn">Edit Name</a>
-<form
-	id="edit-form"
-	action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
-	method="POST"
-	style="display: none"
->
-	<h1><input type="text" name="name" value="<%= folder.name %>" required /></h1>
-	<button type="submit">Save</button>
-	<button type="button" id="cancel-btn">Cancel</button>
-</form>
-<br /><br />
-<% folderChildren.forEach( folderChild => {%>
-<div class="folder">
-	<a href="/dashboard/folders/<%= folderChild.id %>">
-		<%= folderChild.name%>
-	</a>
+<div class="flex h-screen">
+	<!-- sidebar -->
+	<aside class="w-56 bg-gray-900 text-white p-5">
+		<h2 class="text-xl font-bold mb-6">CloudVault</h2>
+		<a href="/dashboard" class="block mb-2 hover:text-gray-300">All Files</a>
+	</aside>
+
+	<!-- main -->
+	<div class="flex-1 flex flex-col">
+		<!-- topbar -->
+		<header class="flex justify-between items-center p-4 border-b">
+			<h3 class="text-lg font-semibold"><%= folder.name %></h3>
+
+			<div class="flex gap-2">
+				<a
+					href="/dashboard/folders/<%=folder.id%>/upload"
+					class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+				>
+					Upload
+				</a>
+				<a
+					href="/dashboard/folders/<%=folder.id%>/new-folder"
+					class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+				>
+					New Folder
+				</a>
+			</div>
+		</header>
+
+		<!-- content -->
+		<div class="p-6">
+			<!-- edit name -->
+			<button id="edit-btn" class="mb-4 text-sm text-blue-600">
+				Edit Name
+			</button>
+
+			<form
+				id="edit-form"
+				action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
+				method="POST"
+				class="mb-4 hidden"
+			>
+				<input
+					type="text"
+					name="name"
+					value="<%= folder.name %>"
+					class="border p-2 rounded"
+					required
+				/>
+				<button
+					type="submit"
+					class="ml-2 bg-blue-500 text-white px-3 py-1 rounded"
+				>
+					Save
+				</button>
+				<button type="button" id="cancel-btn" class="ml-2">Cancel</button>
+			</form>
+
+			<h3 class="text-lg font-semibold mb-3">Folders</h3>
+			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+				<% folderChildren.forEach(folderChild => { %>
+				<a
+					href="/dashboard/folders/<%= folderChild.id %>"
+					class="bg-yellow-100 p-4 rounded-lg hover:bg-yellow-200 text-center"
+				>
+					<div class="mt-2 text-sm truncate"><%= folderChild.name %></div>
+				</a>
+				<% }) %>
+			</div>
+
+			<h3 class="text-lg font-semibold mb-3">Files</h3>
+			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+				<% fileChildren.forEach(fileChild => { %>
+				<a
+					href="/dashboard/folders/<%= fileChild.id %>/details"
+					class="bg-blue-100 p-4 rounded-lg hover:bg-blue-200 text-center"
+				>
+					<div class="mt-2 text-sm truncate"><%= fileChild.name %></div>
+				</a>
+				<% }) %>
+			</div>
+
+			<!-- delete folder -->
+			<form
+				class="mt-6"
+				action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
+				method="POST"
+				onsubmit="return confirm('Delete this folder and all its contents?');"
+			>
+				<button class="bg-red-500 text-white px-4 py-2 rounded">
+					Delete Folder
+				</button>
+			</form>
+		</div>
+	</div>
 </div>
-<br />
-<% }) %> <% fileChildren.forEach( fileChild => {%>
-<div class="file">
-	<a href="/dashboard/folders/<%= fileChild.id %>/details">
-		<%= fileChild.name%>
-	</a>
-</div>
-<br />
-<% }) %>
-<br />
-<form
-	class="delete-form"
-	action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
-	method="POST"
-	onsubmit="return confirm('Delete this folder and all its contents?');"
->
-	<button class="delete-btn" type="submit">Delete Folder</button>
-</form>
-<br /><br />
+
 <script>
 	const editBtn = document.getElementById('edit-btn');
 	const editForm = document.getElementById('edit-form');
-	const folderName = document.getElementById('folder-name');
 	const cancelBtn = document.getElementById('cancel-btn');
 
 	editBtn.addEventListener('click', () => {
-		folderName.style.display = 'none';
-		editBtn.style.display = 'none';
-		editForm.style.display = 'block';
-
-		const input = editForm.querySelector('input');
-		input.focus();
-		input.setSelectionRange(input.value.length, input.value.length);
+		editForm.classList.remove('hidden');
+		editBtn.classList.add('hidden');
 	});
 
 	cancelBtn.addEventListener('click', () => {
-		folderName.style.display = 'block';
-		editBtn.style.display = 'inline-block';
-		editForm.style.display = 'none';
+		editForm.classList.add('hidden');
+		editBtn.classList.remove('hidden');
 	});
 </script>
-
-<%- include('./partials/home.ejs') %>
