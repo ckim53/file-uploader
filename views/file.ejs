@@ -7,32 +7,64 @@
 
 	<!-- main -->
 	<div class="flex-1 flex flex-col">
-		<header class="p-4 border-b">
+		<!-- topbar -->
+		<header class="flex justify-between items-center p-4 border-b">
 			<h3 class="text-lg font-semibold">File Details</h3>
 		</header>
 
-		<div class="p-6">
-			<p><strong>Name:</strong> <%= file.name %></p>
-			<p><strong>Type:</strong> <%= file.contentType %></p>
-			<p><strong>Size:</strong> <%= file.size %> bytes</p>
+		<!-- content -->
+		<div class="p-6 max-w-2xl">
+			<!-- file card -->
+			<div class="bg-white shadow-sm border rounded-lg p-6">
+				<!-- file name -->
+				<div class="mb-4">
+					<h2 class="text-xl font-semibold"><%= file.name %></h2>
+					<p class="text-sm text-gray-500">File</p>
+				</div>
 
-			<div class="mt-4 flex gap-3">
+				<!-- metadata -->
+				<div class="space-y-2 text-sm text-gray-700">
+					<p><span class="font-medium">Type:</span> <%= file.contentType %></p>
+					<p><span class="font-medium">Size:</span> <%= file.size %> bytes</p>
+				</div>
+
+				<!-- actions -->
+				<div class="mt-6 flex gap-3">
+					<a
+						href="/dashboard/files/<%= file.id %>/download"
+						class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+					>
+						Download
+					</a>
+
+					<form
+						action="/dashboard/files/<%= file.id %>?_method=DELETE"
+						method="POST"
+						onsubmit="return confirm('Delete this file?');"
+					>
+						<button
+							class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+						>
+							Delete
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- back -->
+			<div class="mt-6">
+				<% if (typeof parentId !== 'undefined' && parentId) { %>
 				<a
-					href="/dashboard/files/<%= file.id %>/download"
-					class="bg-blue-500 text-white px-4 py-2 rounded"
+					href="/dashboard/folders/<%= parentId %>"
+					class="text-blue-600 hover:underline"
 				>
-					Download
+					Back to Folder
 				</a>
-
-				<form
-					action="/dashboard/files/<%= file.id %>?_method=DELETE"
-					method="POST"
-					onsubmit="return confirm('Delete this file?');"
-				>
-					<button class="bg-red-500 text-white px-4 py-2 rounded">
-						Delete
-					</button>
-				</form>
+				<% } else { %>
+				<a href="/dashboard" class="text-blue-600 hover:underline">
+					Back to Dashboard
+				</a>
+				<% } %>
 			</div>
 		</div>
 	</div>

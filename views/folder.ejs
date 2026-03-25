@@ -9,7 +9,10 @@
 	<div class="flex-1 flex flex-col">
 		<!-- topbar -->
 		<header class="flex justify-between items-center p-4 border-b">
-			<h3 class="text-lg font-semibold"><%= folder.name %></h3>
+			<div>
+				<h2 class="text-xl font-semibold"><%= folder.name %></h2>
+				<p class="text-sm text-gray-500">Folder</p>
+			</div>
 
 			<div class="flex gap-2">
 				<a
@@ -30,45 +33,46 @@
 		<!-- content -->
 		<div class="p-6">
 			<!-- edit name -->
-			<button id="edit-btn" class="mb-4 text-sm text-blue-600">
-				Edit Name
-			</button>
-
-			<form
-				id="edit-form"
-				action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
-				method="POST"
-				class="mb-4 hidden"
-			>
-				<input
-					type="text"
-					name="name"
-					value="<%= folder.name %>"
-					class="border p-2 rounded"
-					required
-				/>
-				<button
-					type="submit"
-					class="ml-2 bg-blue-500 text-white px-3 py-1 rounded"
-				>
-					Save
+			<div class="mb-6">
+				<button id="edit-btn" class="text-sm text-blue-600 hover:underline">
+					Rename folder
 				</button>
-				<button type="button" id="cancel-btn" class="ml-2">Cancel</button>
-			</form>
 
-			<h3 class="text-lg font-semibold mb-3">Folders</h3>
-			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+				<form
+					id="edit-form"
+					action="/dashboard/folders/<%= folder.id %>/edit?_method=PUT"
+					method="POST"
+					class="mt-3 hidden flex gap-2"
+				>
+					<input
+						type="text"
+						name="name"
+						value="<%= folder.name %>"
+						class="border p-2 rounded w-64"
+						required
+					/>
+					<button class="bg-blue-500 text-white px-3 py-1 rounded">Save</button>
+					<button type="button" id="cancel-btn">Cancel</button>
+				</form>
+			</div>
+
+			<!-- folders -->
+			<h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">
+				Folders
+			</h3>
+			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
 				<% folderChildren.forEach(folderChild => { %>
 				<a
 					href="/dashboard/folders/<%= folderChild.id %>"
-					class="bg-yellow-100 p-4 rounded-lg hover:bg-yellow-200 text-center"
+					class="bg-cyan-100 p-4 rounded-lg hover:bg-cyan-200 text-center"
 				>
 					<div class="mt-2 text-sm truncate"><%= folderChild.name %></div>
 				</a>
 				<% }) %>
 			</div>
 
-			<h3 class="text-lg font-semibold mb-3">Files</h3>
+			<!-- files -->
+			<h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">Files</h3>
 			<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
 				<% fileChildren.forEach(fileChild => { %>
 				<a
@@ -80,17 +84,18 @@
 				<% }) %>
 			</div>
 
-			<!-- delete folder -->
-			<form
-				class="mt-6"
-				action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
-				method="POST"
-				onsubmit="return confirm('Delete this folder and all its contents?');"
-			>
-				<button class="bg-red-500 text-white px-4 py-2 rounded">
-					Delete Folder
-				</button>
-			</form>
+			<!-- delete -->
+			<div class="mt-10">
+				<form
+					action="/dashboard/folders/<%= folder.id %>?_method=DELETE"
+					method="POST"
+					onsubmit="return confirm('Delete this folder and all its contents?');"
+				>
+					<button class="text-red-500 text-sm hover:underline">
+						Delete folder
+					</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
